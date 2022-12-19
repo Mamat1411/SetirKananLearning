@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::controller('UsedCarController')->group(function ()
+{
+    Route::get('usedcar', 'index');
+    // Route::post('usedcar', 'store');
+    // Route::get('usedcar/{id}', 'show');
+    // Route::put('usedcar/{id}', 'update');
+    // Route::delete('usedcar/{id}', 'delete');
 });
