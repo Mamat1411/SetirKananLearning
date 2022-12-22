@@ -16,9 +16,22 @@ class UsedCarRepository
 
     }
 
-    public function getData($request, $id = null)
+    public function getData($request)
     {
+        $id = $request->id;
 
+        if (!$id) {
+            $data = $this->usedCar->all();
+        } else {
+            $data = $this->usedCar->where('id', $id)->get();
+            if ($data->isEmpty()) {
+                $response = "Data Not Found";
+                return $response;
+            }
+        }
+
+        $response = UsedCarResource::collection($data);
+        return $response;
     }
 
     public function destroy($request, $id)

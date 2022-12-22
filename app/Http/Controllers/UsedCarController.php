@@ -4,17 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\UsedCar;
 use Illuminate\Http\Request;
+use App\Repositories\UsedCarRepository;
 
 class UsedCarController extends Controller
 {
+    public function __construct(UsedCarRepository $usedCarRepository)
+    {
+        $this->usedCarRepository = $usedCarRepository;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return "This is UsedCarController Index";
+        try {
+            $data = $this->usedCarRepository->getData($request);
+            return $data;
+        } catch (\Exception $e) {
+            return $this->responseJson('error', $e->getMessage(), []);
+        }
     }
 
     /**
