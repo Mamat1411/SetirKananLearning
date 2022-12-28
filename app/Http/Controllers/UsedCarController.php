@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\UsedCar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UsedCarRequest;
 use App\Repositories\UsedCarRepository;
+use Illuminate\Routing\Controller;
+// use App\Http\Controllers\Controller;
 
 class UsedCarController extends Controller
 {
@@ -33,9 +37,18 @@ class UsedCarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UsedCarRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $request = $request->all();
+            $data = $this->usedCarRepository->storeOrUpdate($request);
+            DB::commit();
+            return response()->json($data, 200, []);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json($e->getMessage(), 200, []);
+        }
     }
 
     /**
