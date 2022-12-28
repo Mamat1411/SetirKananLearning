@@ -90,8 +90,13 @@ class UsedCarController extends Controller
      * @param  \App\Models\UsedCar  $usedCar
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UsedCar $usedCar)
+    public function destroy($id)
     {
-        //
+        try {
+            $data = $this->usedCarRepository->destroy($id);
+            return response()->json("Data Successfully Deleted", 200, []);
+        } catch (\Exception $e) {
+            return response()->json($e->getMessage(), 500, []);
+        }
     }
 }
