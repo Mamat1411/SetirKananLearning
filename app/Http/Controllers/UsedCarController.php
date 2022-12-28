@@ -45,7 +45,7 @@ class UsedCarController extends Controller
             $request = $request->all();
             $data = $this->usedCarRepository->storeOrUpdate($request);
             DB::commit();
-            return response()->json($data, 200, []);
+            return response()->json("Data Successfully Added", 200, []);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json($e->getMessage(), 200, []);
@@ -77,7 +77,7 @@ class UsedCarController extends Controller
             $request = $request->all();
             $data = $this->usedCarRepository->storeOrUpdate($request, $id);
             DB::commit();
-            return response()->json($data, 200, []);
+            return response()->json("Data Successfully Updated", 200, []);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json($e->getMessage(), 500, []);
