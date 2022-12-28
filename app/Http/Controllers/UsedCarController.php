@@ -28,7 +28,7 @@ class UsedCarController extends Controller
             $data = $this->usedCarRepository->getData($request);
             return $data;
         } catch (\Exception $e) {
-            return $this->responseJson('error', $e->getMessage(), []);
+            return response()->json($e->getMessage(), 500, []);
         }
     }
 
@@ -48,7 +48,7 @@ class UsedCarController extends Controller
             return response()->json("Data Successfully Added", 200, []);
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json($e->getMessage(), 200, []);
+            return response()->json($e->getMessage(), 500, []);
         }
     }
 
