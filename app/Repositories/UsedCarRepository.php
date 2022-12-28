@@ -13,7 +13,9 @@ class UsedCarRepository
 
     public function storeOrUpdate($request, $id = null, $method = null)
     {
-
+        $dataUsedCar = $this->usedCar->updateOrCreate($request);
+        $response = new UsedCarResource($dataUsedCar);
+        return $response;
     }
 
     public function getData($request)
