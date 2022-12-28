@@ -48,8 +48,13 @@ class UsedCarRepository
         return $response;
     }
 
-    public function destroy($request, $id)
+    public function destroy($id)
     {
-
+        $data = $this->usedCar->whereId($id)->first();
+        if (!$data) {
+            throw new Exception("Data Is Not Found");
+        } else {
+            $data->delete();
+        }
     }
 }
