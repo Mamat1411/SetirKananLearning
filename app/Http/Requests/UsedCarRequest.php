@@ -13,7 +13,7 @@ class UsedCarRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,17 @@ class UsedCarRequest extends FormRequest
      */
     public function rules()
     {
+        $required = 'required';
+
+        if ($this->method() == 'PUT') {
+            $required = '';
+        }
+
         return [
-            //
+            'car_brand'     => [$required, 'max:100'],
+            'car_type'      => [$required, 'max:100'],
+            'car_model'     => [$required, 'max:100'],
+            'price'         => [$required, 'max:15']
         ];
     }
 }
