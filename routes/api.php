@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller('UsedCarController')->group(function ()
 {
     Route::get('usedcar', 'index');
-    // Route::post('usedcar', 'store');
+    Route::post('usedcar', 'store');
     // Route::get('usedcar/{id}', 'show');
     // Route::put('usedcar/{id}', 'update');
     // Route::delete('usedcar/{id}', 'delete');
