@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\UsedCarRequest;
 use App\Repositories\UsedCarRepository;
+use Exception;
 use Illuminate\Routing\Controller;
 // use App\Http\Controllers\Controller;
 
@@ -69,9 +70,18 @@ class UsedCarController extends Controller
      * @param  \App\Models\UsedCar  $usedCar
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UsedCar $usedCar)
+    public function update(UsedCarRequest $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $request = $request->all();
+            $data = $this->usedCarRepository->storeOrUpdate($request, $id);
+            DB::commit();
+            return response()->json($data, 200, []);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json($e->getMessage(), 500, []);
+        }
     }
 
     /**
