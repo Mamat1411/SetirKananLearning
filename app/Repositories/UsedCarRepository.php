@@ -3,6 +3,7 @@
 namespace App\Repositories;
 use App\Http\Resources\UsedCarResource;
 use App\Models\UsedCar;
+use Exception;
 
 class UsedCarRepository
 {
@@ -13,7 +14,18 @@ class UsedCarRepository
 
     public function storeOrUpdate($request, $id = null, $method = null)
     {
-        $dataUsedCar = $this->usedCar->updateOrCreate($request);
+        //validation for request method
+        if (request()->method() == 'PUT') {
+            //validation for id data
+            if (!$this->usedCar->whereId($id)->first()) {
+                throw new Exception("Data Is Not Found");
+            }
+        }
+        //Insert Data
+        $dataUsedCar = $this->usedCar->updateOrCreate(
+            ['id' => $id],
+            $request
+        );
         $response = new UsedCarResource($dataUsedCar);
         return $response;
     }
